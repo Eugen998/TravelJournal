@@ -4,4 +4,6 @@
     <string name="favourite"><font fgcolor='#737373'>Favourite</font></string>
     <string name="about"><font fgcolor='#737373'>About us</font></string>
     <string name="contact"><font fgcolor='#737373'>Contact</font></string>
+    <string name="detailstoolbartext">Trip details</string>
+    <string name="toolbardestinations">Destinations List</string>
 </resources>
