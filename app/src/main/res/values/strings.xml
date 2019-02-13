@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Activity Manager</string>
+    <string name="home"><font fgcolor='#737373'>Home</font></string>
+    <string name="favourite"><font fgcolor='#737373'>Favourite</font></string>
+    <string name="about"><font fgcolor='#737373'>About us</font></string>
+    <string name="contact"><font fgcolor='#737373'>Contact</font></string>
 </resources>
