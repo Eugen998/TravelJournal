@@ -70,18 +70,21 @@
                 android:padding="8dp">
 
                 <RadioButton
+                    android:id="@+id/city_break"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="City Break" />
 
                 <RadioButton
+                    android:id="@+id/sea_side"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Sea Side" />
 
                 <RadioButton
+                    android:id="@+id/mountains"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

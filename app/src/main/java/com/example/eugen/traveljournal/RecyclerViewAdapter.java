@@ -25,14 +25,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mDestinations = new ArrayList<>();
     private ArrayList<String> mTripTypes = new ArrayList<>();
-    private ArrayList<Integer> mPrices = new ArrayList<>();
-    private ArrayList<Date> mFromDates = new ArrayList<>();
-    private ArrayList<Date> mToDates = new ArrayList<>();
-    private ArrayList<Image> mImages = new ArrayList<>();
+    private ArrayList<Float> mPrices = new ArrayList<>();
+    private ArrayList<String> mFromDates = new ArrayList<>();
+    private ArrayList<String> mToDates = new ArrayList<>();
+    private ArrayList<String> mImages = new ArrayList<>();
     private ArrayList<Integer> mRatings = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mNames, ArrayList<String> mDestinations, ArrayList<String> mTripTypes, ArrayList<Integer> mPrices, ArrayList<Date> mFromDates, ArrayList<Date> mToDates, ArrayList<Image> mImages, ArrayList<Integer> mRatings, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<String> mNames, ArrayList<String> mDestinations, ArrayList<String> mTripTypes, ArrayList<Float> mPrices, ArrayList<String> mFromDates, ArrayList<String> mToDates, ArrayList<String> mImages, ArrayList<Integer> mRatings, Context mContext) {
         this.mNames = mNames;
         this.mDestinations = mDestinations;
         this.mTripTypes = mTripTypes;
@@ -86,9 +86,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView Name;
         TextView Destination;
         String tripType;
-        Integer Price;
-        Date fromDate;
-        Date toDate;
+        Float Price;
+        String fromDate;
+        String toDate;
         CircleImageView image;
         Integer Rating;
         RelativeLayout parentLayout;

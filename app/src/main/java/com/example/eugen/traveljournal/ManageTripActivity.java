@@ -1,21 +1,22 @@
 package com.example.eugen.traveljournal;
 
 import android.app.DatePickerDialog;
-import android.support.annotation.Nullable;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
-
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
-import java.time.Year;
 import java.util.Calendar;
 
 public class ManageTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -31,8 +32,38 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
         textView.setText(getString(R.string.detailstoolbartext));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        Button from = findViewById(R.id.fromdate);
-        Button to = findViewById(R.id.todate);
+
+        final Bundle extras = new Bundle();
+        final EditText name = findViewById(R.id.name);
+        final EditText destination = findViewById(R.id.destination);
+        final RadioGroup type = findViewById(R.id.type);
+        final SeekBar price = findViewById(R.id.price);
+        price.setMax(1000);
+        final RatingBar rating = findViewById(R.id.rating);
+        final Button button = findViewById(R.id.save);
+        final Button from = findViewById(R.id.fromdate);
+        final Button to = findViewById(R.id.todate);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goBack = new Intent(ManageTripActivity.this,DestinationsList.class);
+                extras.putString("Name", name.getText().toString());
+                extras.putString("Destination", destination.getText().toString());
+                extras.putString("From Date",from.getText().toString());
+                extras.putString("To Date",to.getText().toString());
+                extras.putFloat("Rating",rating.getRating());
+                int radioId = type.getCheckedRadioButtonId();
+                View radioButton = type.findViewById(radioId);
+                int idx = type.indexOfChild(radioButton);
+                RadioButton r = (RadioButton) type.getChildAt(idx);
+                extras.putString("Type",r.getText().toString());
+                goBack.putExtras(extras);
+                setResult(RESULT_OK,goBack);
+                finish();
+            }
+        });
+
         from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
