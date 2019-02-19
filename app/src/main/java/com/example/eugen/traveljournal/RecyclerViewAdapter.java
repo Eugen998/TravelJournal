@@ -29,10 +29,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mFromDates = new ArrayList<>();
     private ArrayList<String> mToDates = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<Integer> mRatings = new ArrayList<>();
+    private ArrayList<Float> mRatings = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mNames, ArrayList<String> mDestinations, ArrayList<String> mTripTypes, ArrayList<Float> mPrices, ArrayList<String> mFromDates, ArrayList<String> mToDates, ArrayList<String> mImages, ArrayList<Integer> mRatings, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<String> mNames, ArrayList<String> mDestinations, ArrayList<String> mTripTypes, ArrayList<Float> mPrices, ArrayList<String> mFromDates, ArrayList<String> mToDates, ArrayList<String> mImages, ArrayList<Float> mRatings, Context mContext) {
         this.mNames = mNames;
         this.mDestinations = mDestinations;
         this.mTripTypes = mTripTypes;
@@ -65,12 +65,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.Price = mPrices.get(i);
         viewHolder.fromDate = mFromDates.get(i);
         viewHolder.toDate = mToDates.get(i);
-        viewHolder.Rating = mRatings.get(i);
+        viewHolder.Rating.setText(mRatings.get(i).toString()+"/5");
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"clicked on " + mNames.get(i));
-                Toast.makeText(mContext, mNames.get(i), Toast.LENGTH_SHORT).show();
+                String display = mNames.get(i)+","+mDestinations.get(i)+" "+mTripTypes.get(i)+", from "+mFromDates.get(i)+" to "+mToDates.get(i)+", rated "+mRatings.get(i)+". Price: "+mPrices.get(i);
+                Toast.makeText(mContext, display, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -90,7 +91,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String fromDate;
         String toDate;
         CircleImageView image;
-        Integer Rating;
+        TextView Rating;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -98,6 +99,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image = itemView.findViewById(R.id.image);
             Destination = itemView.findViewById(R.id.trip_destination);
             Name = itemView.findViewById(R.id.trip_name);
+            Rating = itemView.findViewById(R.id.trip_rating);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }

@@ -5,6 +5,9 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +29,7 @@ import java.util.Locale;
 public class DestinationsList extends AppCompatActivity {
     private static final String TAG = "DestinationsList";
     //variabile
+    private DrawerLayout drawerLayout;
     private final static int REQUEST_CODE_1 = 1;
     FloatingActionButton fab;
     public ArrayList<String> mNames = new ArrayList<>();
@@ -35,15 +39,18 @@ public class DestinationsList extends AppCompatActivity {
     public ArrayList<Float> mPrices = new ArrayList<>();
     public ArrayList<String> mFromDates = new ArrayList<>();
     public ArrayList<String> mToDates = new ArrayList<>();
-    public ArrayList<Integer> mRatings = new ArrayList<>();
+    public ArrayList<Float> mRatings = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destinations_list);
-
+        Toolbar toolbar = (Toolbar)findViewById(R.id.nav_action);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.open_nav_drawer,R.string.close_nav_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
         Log.d(TAG, "onCreate: started.");
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.nav_action);
         setSupportActionBar(toolbar);
         TextView textView = (TextView)findViewById(R.id.nav_action_textview);
         textView.setText(getString(R.string.toolbardestinations));
@@ -72,11 +79,11 @@ public class DestinationsList extends AppCompatActivity {
                     mImages.add("https://www.sortiraparis.com/images/55/1467/407707-que-faire-cette-semaine-a-paris-du-12-au-18-novembre-2018.jpg");
                     mNames.add(extras.getString("Name"));
                     mDestinations.add(extras.getString("Destination"));
-                    mTripTypes.add("a");
-                    mPrices.add((float)4);
+                    mTripTypes.add(extras.getString("Type"));
+                    mPrices.add(extras.getFloat("Price"));
                     mFromDates.add(extras.getString("From Date"));
                     mToDates.add(extras.getString("To Date"));
-                    mRatings.add(4);
+                    mRatings.add(extras.getFloat("Rating"));
 
 
                     Log.d(TAG, "onActivityResult: going to init recycle with data received");
@@ -85,27 +92,6 @@ public class DestinationsList extends AppCompatActivity {
                 }
         }
     }
-    //private void initImageBitmaps() {
-        //Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-        //mImages.add(R.drawable.ic_menu_contact);
-        //mDestinations.add("San Francisco");
-        //mNames.add("Summer 2017");
-
-//        mImageUrls.add("https://www.sortiraparis.com/images/55/1467/407707-que-faire-cette-semaine-a-paris-du-12-au-18-novembre-2018.jpg");
-//        mNames.add("Paris");
-//        mSeasons.add("Winter 2016");
-//
-//        mImageUrls.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdROzwIJNg0AZ-HA9kXpUEwdxPfNNOKuGAIPL88NgCvRrA7U7J");
-//        mNames.add("Shanghai");
-//        mSeasons.add("Winter 2015");
-//
-//        mImageUrls.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfjXg4oTrJp9vR3k-7h7aMOUbGerAW45DVC6LokupmhbiWLV6M");
-//        mNames.add("Los Angeles");
-//        mSeasons.add("Summer 2018");
-
-
-   // }
 
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: initialising recycler view.");
@@ -113,6 +99,14 @@ public class DestinationsList extends AppCompatActivity {
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(mNames,mDestinations,mTripTypes,mPrices,mFromDates,mToDates,mImages,mRatings,this);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
     }
 
 }

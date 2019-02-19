@@ -58,6 +58,7 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
                 int idx = type.indexOfChild(radioButton);
                 RadioButton r = (RadioButton) type.getChildAt(idx);
                 extras.putString("Type",r.getText().toString());
+                extras.putFloat("Price",price.getProgress());
                 goBack.putExtras(extras);
                 setResult(RESULT_OK,goBack);
                 finish();

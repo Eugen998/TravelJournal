@@ -6,4 +6,9 @@
     <string name="contact"><font fgcolor='#737373'>Contact</font></string>
     <string name="detailstoolbartext">Trip details</string>
     <string name="toolbardestinations">Destinations List</string>
+    <string name="send"><font fgcolor='#737373'>Send</font></string>
+    <string name="share"><font fgcolor='#737373'>Share</font></string>
+    <string name="open_nav_drawer">Open nav drawer</string>
+    <string name="close_nav_drawer">Close nav drawer</string>
 </resources>
+
