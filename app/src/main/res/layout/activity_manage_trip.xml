@@ -221,6 +221,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:numStars="5" />
+            <ImageView
+                android:id="@+id/testpic"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                />
 
             <Button
                 android:id="@+id/save"

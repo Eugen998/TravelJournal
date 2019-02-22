@@ -5,11 +5,16 @@
     android:padding="15dp"
     android:id="@+id/parent_layout">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/image"
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:id="@+id/image"-->
+        <!--android:layout_width="90dp"-->
+        <!--android:layout_height="90dp"-->
+        <!--android:src="@mipmap/ic_launcher" />-->
+    <ImageView
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:src="@mipmap/ic_launcher" />
+        android:id="@+id/image"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/trip_destination"

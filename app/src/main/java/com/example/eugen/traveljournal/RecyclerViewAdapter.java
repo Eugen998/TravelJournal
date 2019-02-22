@@ -2,12 +2,14 @@ package com.example.eugen.traveljournal;
 
 import android.content.Context;
 import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +30,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<Float> mPrices = new ArrayList<>();
     private ArrayList<String> mFromDates = new ArrayList<>();
     private ArrayList<String> mToDates = new ArrayList<>();
-    private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<Uri> mImages = new ArrayList<>();
     private ArrayList<Float> mRatings = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(ArrayList<String> mNames, ArrayList<String> mDestinations, ArrayList<String> mTripTypes, ArrayList<Float> mPrices, ArrayList<String> mFromDates, ArrayList<String> mToDates, ArrayList<String> mImages, ArrayList<Float> mRatings, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<String> mNames, ArrayList<String> mDestinations, ArrayList<String> mTripTypes, ArrayList<Float> mPrices, ArrayList<String> mFromDates, ArrayList<String> mToDates, ArrayList<Uri> mImages, ArrayList<Float> mRatings, Context mContext) {
         this.mNames = mNames;
         this.mDestinations = mDestinations;
         this.mTripTypes = mTripTypes;
@@ -55,10 +57,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Log.d(TAG,"onBindViewHolder: called.");
+        ImageView here = viewHolder.image;
         Glide.with(mContext)
-                .asBitmap()
                 .load(mImages.get(i))
-                .into(viewHolder.image);
+                .into(here);
         viewHolder.Name.setText(mNames.get(i));
         viewHolder.Destination.setText(mDestinations.get(i));
         viewHolder.tripType = mNames.get(i);
@@ -70,7 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"clicked on " + mNames.get(i));
-                String display = mNames.get(i)+","+mDestinations.get(i)+" "+mTripTypes.get(i)+", from "+mFromDates.get(i)+" to "+mToDates.get(i)+", rated "+mRatings.get(i)+". Price: "+mPrices.get(i);
+                String display = mImages.get(i)+"\n"+mDestinations.get(i)+" "+mTripTypes.get(i)+", from "+mFromDates.get(i)+" to "+mToDates.get(i)+", rated "+mRatings.get(i)+". Price: "+mPrices.get(i);
                 Toast.makeText(mContext, display, Toast.LENGTH_LONG).show();
             }
         });
@@ -90,7 +92,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Float Price;
         String fromDate;
         String toDate;
-        CircleImageView image;
+        ImageView image;
         TextView Rating;
         RelativeLayout parentLayout;
 

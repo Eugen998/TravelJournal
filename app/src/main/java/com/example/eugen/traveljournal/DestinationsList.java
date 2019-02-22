@@ -2,6 +2,7 @@ package com.example.eugen.traveljournal;
 
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,7 +36,7 @@ public class DestinationsList extends AppCompatActivity {
     FloatingActionButton fab;
     public ArrayList<String> mNames = new ArrayList<>();
     public ArrayList<String> mDestinations = new ArrayList<>();
-    public ArrayList<String> mImages = new ArrayList<>();
+    public ArrayList<Uri> mImages = new ArrayList<>();
     public ArrayList<String> mTripTypes = new ArrayList<>();
     public ArrayList<Float> mPrices = new ArrayList<>();
     public ArrayList<String> mFromDates = new ArrayList<>();
@@ -76,7 +78,8 @@ public class DestinationsList extends AppCompatActivity {
             case REQUEST_CODE_1:
                 if(resultCode == RESULT_OK){
                     Bundle extras = data.getExtras();
-                    mImages.add("https://www.sortiraparis.com/images/55/1467/407707-que-faire-cette-semaine-a-paris-du-12-au-18-novembre-2018.jpg");
+                    Uri path = Uri.parse(extras.getString("Image"));
+                    mImages.add(path);
                     mNames.add(extras.getString("Name"));
                     mDestinations.add(extras.getString("Destination"));
                     mTripTypes.add(extras.getString("Type"));
