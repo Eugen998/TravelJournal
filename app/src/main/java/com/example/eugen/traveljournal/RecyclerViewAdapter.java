@@ -57,17 +57,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Log.d(TAG,"onBindViewHolder: called.");
+
         ImageView here = viewHolder.image;
-        Glide.with(mContext)
-                .load(mImages.get(i))
-                .into(here);
+        here.setImageURI(mImages.get(i));
+
         viewHolder.Name.setText(mNames.get(i));
+
         viewHolder.Destination.setText(mDestinations.get(i));
+
         viewHolder.tripType = mNames.get(i);
+
         viewHolder.Price = mPrices.get(i);
+
         viewHolder.fromDate = mFromDates.get(i);
+
         viewHolder.toDate = mToDates.get(i);
+
         viewHolder.Rating.setText(mRatings.get(i).toString()+"/5");
+
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +82,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 String display = mImages.get(i)+"\n"+mDestinations.get(i)+" "+mTripTypes.get(i)+", from "+mFromDates.get(i)+" to "+mToDates.get(i)+", rated "+mRatings.get(i)+". Price: "+mPrices.get(i);
                 Toast.makeText(mContext, display, Toast.LENGTH_LONG).show();
             }
-        });
+        });//un toast pt verificare (in toast apare bine Uri-ul)
 
     }
 
@@ -92,7 +99,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Float Price;
         String fromDate;
         String toDate;
-        ImageView image;
+        CircleImageView image;
         TextView Rating;
         RelativeLayout parentLayout;
 

@@ -1,14 +1,15 @@
 package com.example.eugen.traveljournal;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,27 +23,32 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ManageTripActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     int i = 0;
     private static int RESULT_LOAD_IMAGE = 1;
     private Uri selectedImage;
-    private String path = new String();
+    static final int REQUEST_IMAGE_CAPTURE = 2;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_trip);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.nav_action);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.nav_action);
         setSupportActionBar(toolbar);
-        TextView textView = (TextView)findViewById(R.id.nav_action_textview);
+        TextView textView = (TextView) findViewById(R.id.nav_action_textview);
         textView.setText(getString(R.string.detailstoolbartext));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -58,6 +64,8 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
         final Button from = findViewById(R.id.fromdate);
         final Button to = findViewById(R.id.todate);
         final Button galleryImg = findViewById(R.id.gallery_photo);
+        final Button takePic = findViewById(R.id.camera_photo);
+
 
         galleryImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,25 +76,32 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
+        takePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goBack = new Intent(ManageTripActivity.this,DestinationsList.class);
+                Intent goBack = new Intent(ManageTripActivity.this, DestinationsList.class);
                 extras.putString("Name", name.getText().toString());
                 extras.putString("Destination", destination.getText().toString());
-                extras.putString("From Date",from.getText().toString());
-                extras.putString("To Date",to.getText().toString());
-                extras.putFloat("Rating",rating.getRating());
+                extras.putString("From Date", from.getText().toString());
+                extras.putString("To Date", to.getText().toString());
+                extras.putFloat("Rating", rating.getRating());
                 int radioId = type.getCheckedRadioButtonId();
                 View radioButton = type.findViewById(radioId);
                 int idx = type.indexOfChild(radioButton);
                 RadioButton r = (RadioButton) type.getChildAt(idx);
-                extras.putString("Type",r.getText().toString());
-                extras.putFloat("Price",price.getProgress());
-                extras.putString("Image",selectedImage.toString());
+                extras.putString("Type", r.getText().toString());
+                extras.putFloat("Price", price.getProgress());
+                extras.putString("Image", selectedImage.toString());
                 goBack.putExtras(extras);
-                setResult(RESULT_OK,goBack);
+                setResult(RESULT_OK, goBack);
                 finish();
             }
         });
@@ -95,16 +110,16 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(),"from date");
-                i=0;
+                datePicker.show(getSupportFragmentManager(), "from date");
+                i = 0;
             }
         });
         to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getSupportFragmentManager(),"to date");
-                i=1;
+                datePicker.show(getSupportFragmentManager(), "to date");
+                i = 1;
             }
         });
     }
@@ -112,19 +127,19 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR,year);
-        c.set(Calendar.MONTH,month);
-        c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String date = DateFormat.getDateInstance().format(c.getTime());
         Button b1 = findViewById(R.id.fromdate);
         Button b2 = findViewById(R.id.todate);
-        if(i==0){
+        if (i == 0) {
             b1.setText(date);
-        }
-        else{
+        } else {
             b2.setText(date);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -132,31 +147,29 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             selectedImage = data.getData();
 
-            ImageView test = findViewById(R.id.testpic);
-            Glide.with(this).load(selectedImage).into(test);
-
+            mImageView = findViewById(R.id.testpic);
+            Glide.with(this).load(selectedImage).into(mImageView);
+            TextView uriText = findViewById(R.id.uriText);
+            uriText.setText(selectedImage.toString());
             //path = getRealPathFromURI(selectedImage,this);
             //Toast.makeText(this,sel, Toast.LENGTH_LONG).show();
         }
 
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            mImageView = findViewById(R.id.testpic);
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+                mImageView.setImageBitmap(bitmap);
+                //selectedImage = getImageUri(this,bitmap);
+            }
+        }
 
     }
-    public String getRealPathFromURI(Uri contentURI, Activity context) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        @SuppressWarnings("deprecation")
-        Cursor cursor = context.managedQuery(contentURI, projection, null,
-                null, null);
-        if (cursor == null)
-            return null;
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        if (cursor.moveToFirst()) {
-            String s = cursor.getString(column_index);
-            // cursor.close();
-            return s;
-        }
-        // cursor.close();
-        return null;
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
 }

@@ -10,7 +10,7 @@
         <!--android:layout_width="90dp"-->
         <!--android:layout_height="90dp"-->
         <!--android:src="@mipmap/ic_launcher" />-->
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:id="@+id/image"
