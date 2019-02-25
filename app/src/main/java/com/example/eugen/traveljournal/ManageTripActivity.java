@@ -171,6 +171,7 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
             selectedImage = data.getData();
 
             mImageView = findViewById(R.id.testpic);
+            mImageView.setVisibility(View.VISIBLE);
             Glide.with(this).load(selectedImage).into(mImageView);
             TextView uriText = findViewById(R.id.uriText);
             uriText.setText(selectedImage.toString());
