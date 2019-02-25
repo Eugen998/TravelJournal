@@ -181,8 +181,13 @@ public class ManageTripActivity extends AppCompatActivity implements DatePickerD
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             TextView writeUri = findViewById(R.id.uriText);
             mImageView = findViewById(R.id.testpic);
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            mImageView.setImageBitmap(bitmap);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(currentPhotoPath));
+                mImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            galleryAddPic();
         }
 
     }
