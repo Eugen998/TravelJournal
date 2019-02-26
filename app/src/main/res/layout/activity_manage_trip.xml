@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_import_contacts_black_24dp"
+                android:drawablePadding="10dp"
                 android:padding="16dp" />
 
             <TextView
@@ -52,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_directions_run_black_24dp"
+                android:drawablePadding="10dp"
                 android:padding="16dp" />
 
             <TextView
@@ -146,7 +148,8 @@
                     android:hint="DD/MM/YYYY"
                     android:background="@drawable/date_picker_button"
                     android:layout_marginRight="10dp"
-                    android:textColorHint="#e3ffffff"/>
+                    android:textColorHint="#e3ffffff"
+                    android:textColor="#e3ffffff"/>
 
                 <Button
                     android:id="@+id/todate"
@@ -158,7 +161,8 @@
                     android:hint="DD/MM/YYYY"
                     android:background="@drawable/date_picker_button"
                     android:layout_marginLeft="10dp"
-                    android:textColorHint="#e3ffffff"/>
+                    android:textColorHint="#e3ffffff"
+                    android:textColor="#e3ffffff"/>
             </LinearLayout>
 
             <LinearLayout
